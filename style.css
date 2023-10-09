@@ -1,0 +1,28 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-image: url(images.jpg);
+}
+
+#fruit-form {
+    text-align: center;
+}
+
+#fruit-list {
+    text-align: center;
+}
+
+.fruit-item {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.edit-button,
+.delete-button {
+    margin-left: 5px;
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruit List</title>
+</head>
+<body>
+    
+    <center>
+    <b>Fruit list with Crud</b>
+    <form id="fruit-form">
+        <p>Add new fruit</p>
+        <input type="text" id="name" placeholder="Fruit Name" required>
+        <input type="text" id="color" placeholder="Fruit Color" required>
+        <button type="submit">Add Fruit</button>
+    </form>
+    <form id="filter-form">
+        <label for="filter-color">Filter by Color:</label>
+        <select id="filter-color">
+            <option value="">All</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <!-- Add more color options as needed -->
+        </select>
+        <button type="button" onclick="filterFruits()">Search</button>
+    </form>
+
+    <div id="fruit-list">
+        <!-- Fruit items will be added here -->
+    </div>
+</center>
+
+    <script>
+        
+        document.getElementById('fruit-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const color = document.getElementById('color').value;
+            addFruitToList(name, color);
+            document.getElementById('name').value = '';
+            document.getElementById('color').value = '';
+        });
+
+        function addFruitToList(name, color) {
+            const fruitList = document.getElementById('fruit-list');
+            const fruitItem = document.createElement('div');
+            fruitItem.classList.add('fruit-item');
+            fruitItem.innerHTML = `
+                <span>Name: ${name}</span>
+                <span>Color: ${color}</span>
+                <button class="edit-button" onclick="editFruit(this)">Edit</button>
+                <button class="delete-button" onclick="deleteFruit(this)">Delete</button>`;
+            fruitList.appendChild(fruitItem);
+        }
+
+        function editFruit(button) {
+            const fruitItem = button.parentElement;
+            const nameSpan = fruitItem.querySelector('span:nth-child(1)');
+            const colorSpan = fruitItem.querySelector('span:nth-child(2)');
+            const name = prompt('Edit Fruit Name:', nameSpan.textContent.slice(6));
+            const color = prompt('Edit Fruit Color:', colorSpan.textContent.slice(7));
+            
+            if (name !== null && color !== null) {
+                nameSpan.textContent = `Name: ${name}`;
+                colorSpan.textContent = `Color: ${color}`;
+            }
+        }
+
+        function deleteFruit(button) {
+            const fruitItem = button.parentElement;
+            const fruitList = document.getElementById('fruit-list');
+            fruitList.removeChild(fruitItem);
+        }
+
+        function filterFruits() {
+            const selectedColor = document.getElementById('filter-color').value.toLowerCase();
+            const fruitItems = document.querySelectorAll('.fruit-item');
+            
+            fruitItems.forEach((fruitItem) => {
+                const colorSpan = fruitItem.querySelector('span:nth-child(2)').textContent.toLowerCase();
+                
+                if (selectedColor === '' || colorSpan.includes(selectedColor)) {
+                    fruitItem.style.display = 'block';
+                } else {
+                    fruitItem.style.display = 'none';
+                }
+            });
+        }
+
+    </script>
+
+</body>
+</html>
